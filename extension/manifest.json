@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "read-only-reddit-old",
+  "version": "1.0.0",
+  "description": "Lets Claude Code read old.reddit.com search results and threads at a slow pace. Read only.",
+  "minimum_chrome_version": "120",
+  "permissions": ["scripting", "alarms", "storage"],
+  "host_permissions": ["https://old.reddit.com/*", "http://127.0.0.1:47821/*"],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  }
+}
