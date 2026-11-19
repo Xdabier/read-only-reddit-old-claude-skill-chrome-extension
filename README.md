@@ -129,6 +129,8 @@ To report a security problem, follow [SECURITY.md](SECURITY.md).
 - Age gate, private and quarantined pages are reported, not passed.
 - New Reddit loads most of its content on scroll or on a click, and the extension does neither. A fallback read returns fewer comments and search results than old Reddit, and no next page link.
 - A block or rate limit page never triggers the fallback. It starts the 30 minute stop.
+- The login wall detection has not been checked against a real wall yet, and gate or block pages on new Reddit may not be recognised.
+- The open gaps of the new Reddit fallback are tracked in [#10](https://github.com/Xdabier/read-only-reddit-old-claude-skill-chrome-extension/issues/10), [#11](https://github.com/Xdabier/read-only-reddit-old-claude-skill-chrome-extension/issues/11), [#12](https://github.com/Xdabier/read-only-reddit-old-claude-skill-chrome-extension/issues/12), [#13](https://github.com/Xdabier/read-only-reddit-old-claude-skill-chrome-extension/issues/13) and [#14](https://github.com/Xdabier/read-only-reddit-old-claude-skill-chrome-extension/issues/14). Help is welcome.
 - If Reddit changes its markup, the selectors in `extension/src/extractors/` need an update.
 - The browser must be running.
 
