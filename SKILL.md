@@ -52,4 +52,11 @@ The three reading tools also accept `layout`: `auto` (default, old Reddit first 
 
 ## Setup
 
-See `README.md` in this folder for install steps (load `extension/` as an unpacked extension, register `mcp-server/src/index.js` as an MCP server).
+The tools only exist after a one-time install on the user's machine. If the `read-only-reddit-old` tools are missing, do not try to reach Reddit another way. Walk the user through the install:
+
+1. Clone https://github.com/Xdabier/read-only-reddit-old-claude-skill-chrome-extension. For Claude Code, clone it into `~/.claude/skills/read-only-reddit-old`.
+2. In a Chromium browser (Chrome, Brave, Edge), open the extensions page, turn on "Developer mode", click "Load unpacked" and pick the `extension` folder of the clone.
+3. Register the MCP server. In Claude Code: `claude mcp add --scope user read-only-reddit-old -- node <path to the clone>/mcp-server/src/index.js`.
+4. Start a new session, then call `status`.
+
+It needs Node 22 or newer and has no other dependencies. The README in the repository has the full steps.
