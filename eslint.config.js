@@ -5,7 +5,7 @@ export default [
   { ignores: ['node_modules/'] },
   js.configs.recommended,
   {
-    files: ['mcp-server/**/*.js', 'extension/test/**/*.js', '*.js'],
+    files: ['mcp-server/**/*.js', 'extension/test/**/*.js', 'scripts/**/*.js', '*.js'],
     languageOptions: { globals: globals.node },
   },
   {

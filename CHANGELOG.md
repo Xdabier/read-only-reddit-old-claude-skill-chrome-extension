@@ -7,6 +7,8 @@
 - Fallback to the new Reddit layout. When old Reddit asks for a login, the same page is read from www.reddit.com and the tool output starts with a note that says so. Old Reddit is then skipped for an hour.
 - Extractors for new Reddit threads, search results and post feeds. They read what is in the page without a click, so they return fewer comments and results than old Reddit.
 - A clear error when both layouts ask for a login, so Claude can ask you to log in.
+- A `layout` option on `search`, `read_thread` and `read_listing`: `auto` (default), `old` or `new`. A forced layout never falls back.
+- `npm run test:live`, a manual check that reads one search and one thread from real Reddit through the loaded extension.
 
 ### Changed
 

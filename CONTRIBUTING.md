@@ -39,6 +39,7 @@ The extractors in `extension/src/extractors/` run inside a real Reddit page and 
 
 - Save a search page and a thread page to your disk, from old.reddit.com or www.reddit.com to match the extractor you changed. For new Reddit use "Webpage, Complete", and do not scroll or click before you save.
 - Run the extractor on them in a browser and check the output by eye.
+- For a live check, load the extension and run `npm run test:live`. It runs one search and one thread read on new Reddit through your browser, and fails if the output is empty. Add `-- old` or `-- auto` to check the other paths. It loads two real pages at the normal slow pace, so do not run it in a loop, and it is not part of CI.
 - Say in the pull request what you checked. Do not commit saved Reddit pages, they hold other people's content.
 
 Do not change a lint rule or a test just to make a run pass. If a rule is wrong, say so in the pull request and change it in its own commit.

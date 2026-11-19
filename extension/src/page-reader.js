@@ -23,12 +23,13 @@ async function readFrom(layout, { url, kind, args }) {
   return { ...data, layout: layout.name };
 }
 
-// `request` is { url, kind, args }: a Reddit URL, 'listing' or 'thread', and
-// the extractor arguments.
+// `request` is { url, kind, args, layout }: a Reddit URL, 'listing' or
+// 'thread', the extractor arguments, and optionally which layout to read.
 export function readPage(request) {
   return readWithFallback({
     readOld: () => readFrom(LAYOUTS.old, request),
     readNew: () => readFrom(LAYOUTS.new, request),
     wall: oldRedditWall,
+    layout: request.layout,
   });
 }
