@@ -1,4 +1,4 @@
-import { LOAD_TIMEOUT_MS, REDDIT_ORIGIN } from './config.js';
+import { LOAD_TIMEOUT_MS } from './config.js';
 
 const TAB_KEY = 'readerTabId';
 
@@ -66,12 +66,10 @@ export async function openInReaderTab(url) {
   await chrome.tabs.update(tabId, { url });
   await loaded;
 
-  // tab.url is only visible for hosts in host_permissions.
+  // tab.url is only visible for hosts in host_permissions, so landedUrl is
+  // undefined when the page ended up somewhere else.
   const tab = await chrome.tabs.get(tabId);
-  if (!tab.url?.startsWith(`${REDDIT_ORIGIN}/`)) {
-    throw new Error('Page redirected away from old.reddit.com. Open the URL by hand to check it.');
-  }
-  return tabId;
+  return { tabId, landedUrl: tab.url };
 }
 
 export async function runInTab(tabId, func, args = []) {

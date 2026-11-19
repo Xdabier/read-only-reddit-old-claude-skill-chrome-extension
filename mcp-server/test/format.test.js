@@ -70,6 +70,29 @@ describe('formatListing', () => {
     );
   });
 
+  it('says when the page was read from new Reddit', () => {
+    const text = formatListing({
+      page_title: 't',
+      url: 'u',
+      items: [item],
+      next_url: null,
+      layout: 'new',
+    });
+    assert.match(text, /^Note: old Reddit asked for a login, so this was read from www.reddit.com/);
+    assert.match(text, /More results load on scroll and were not read.$/);
+  });
+
+  it('adds no note for old Reddit', () => {
+    const text = formatListing({
+      page_title: 't',
+      url: 'u',
+      items: [item],
+      next_url: null,
+      layout: 'old',
+    });
+    assert.doesNotMatch(text, /Note:/);
+  });
+
   it('leaves out facts that are missing', () => {
     const bare = {
       ...item,
@@ -120,6 +143,11 @@ describe('formatThread', () => {
     });
     assert.match(text, /Links to: https:\/\/example\.com/);
     assert.match(text, /\(no comments\)$/);
+  });
+
+  it('says when the thread was read from new Reddit', () => {
+    const text = formatThread({ post, comments: [comment()], truncated: false, layout: 'new' });
+    assert.match(text, /^Note: old Reddit asked for a login.*\n\n# A post\n/);
   });
 
   it('prints deleted authors without the u/ prefix', () => {

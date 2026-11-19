@@ -15,6 +15,16 @@ export function findPageProblem() {
     };
   }
 
+  // A password field with no posts, comments or results around it is a login wall.
+  const content =
+    '#siteTable, .commentarea, .search-result-listing, #noresults, shreddit-post, shreddit-feed, [data-testid="search-post-unit"]';
+  const loginWall =
+    /^\/(?:login|register)(?:\/|$)/.test(location.pathname) ||
+    (document.querySelector('input[type="password"]') && !document.querySelector(content));
+  if (loginWall) {
+    return { kind: 'login', message: 'Reddit asked for a login.' };
+  }
+
   if (title.includes('page not found')) {
     return { kind: 'missing', message: `Page not found: ${location.href}` };
   }

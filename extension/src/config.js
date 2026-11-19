@@ -2,8 +2,13 @@
 export const BRIDGE_URL = 'http://127.0.0.1:47821';
 export const CLIENT_HEADER = { 'X-Roro-Client': 'extension' };
 
-export const REDDIT_ORIGIN = 'https://old.reddit.com';
+// Both origins must be listed in manifest.json host_permissions.
+export const OLD_REDDIT_ORIGIN = 'https://old.reddit.com';
+export const NEW_REDDIT_ORIGIN = 'https://www.reddit.com';
 export const LOAD_TIMEOUT_MS = 45_000;
+
+// How long to skip old Reddit after it asked for a login.
+export const LOGIN_WALL_MEMORY_MS = 60 * 60_000;
 
 export const PACING = {
   minGapMs: 8_000,
