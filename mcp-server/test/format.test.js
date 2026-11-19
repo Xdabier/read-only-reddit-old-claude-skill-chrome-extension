@@ -77,9 +77,21 @@ describe('formatListing', () => {
       items: [item],
       next_url: null,
       layout: 'new',
+      fell_back: true,
     });
     assert.match(text, /^Note: old Reddit asked for a login, so this was read from www.reddit.com/);
     assert.match(text, /More results load on scroll and were not read.$/);
+  });
+
+  it('says when new Reddit was asked for', () => {
+    const text = formatListing({
+      page_title: 't',
+      url: 'u',
+      items: [item],
+      next_url: null,
+      layout: 'new',
+    });
+    assert.match(text, /^Note: read from www\.reddit\.com, as requested\./);
   });
 
   it('adds no note for old Reddit', () => {
@@ -146,7 +158,13 @@ describe('formatThread', () => {
   });
 
   it('says when the thread was read from new Reddit', () => {
-    const text = formatThread({ post, comments: [comment()], truncated: false, layout: 'new' });
+    const text = formatThread({
+      post,
+      comments: [comment()],
+      truncated: false,
+      layout: 'new',
+      fell_back: true,
+    });
     assert.match(text, /^Note: old Reddit asked for a login.*\n\n# A post\n/);
   });
 

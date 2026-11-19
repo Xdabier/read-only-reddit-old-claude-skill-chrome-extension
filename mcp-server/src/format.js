@@ -1,5 +1,6 @@
-const NEW_LAYOUT_NOTE =
-  'Note: old Reddit asked for a login, so this was read from www.reddit.com instead. That layout shows fewer comments and results without a click.';
+const FEWER = 'That layout shows fewer comments and results without a click.';
+const FELL_BACK_NOTE = `Note: old Reddit asked for a login, so this was read from www.reddit.com instead. ${FEWER}`;
+const REQUESTED_NOTE = `Note: read from www.reddit.com, as requested. ${FEWER}`;
 
 const meta = (parts) => parts.filter(Boolean).join(' · ');
 const user = (name) => (name.startsWith('[') ? name : `u/${name}`);
@@ -11,9 +12,11 @@ const indent = (text, pad) =>
     .map((line) => pad + line)
     .join('\n');
 
-// Says so when the extension had to fall back to the new Reddit layout.
-const withLayoutNote = (layout, text) =>
-  layout === 'new' ? `${NEW_LAYOUT_NOTE}\n\n${text}` : text;
+// Says so when the text comes from the new Reddit layout, and why.
+function withLayoutNote({ layout, fell_back: fellBack }, text) {
+  if (layout !== 'new') return text;
+  return `${fellBack ? FELL_BACK_NOTE : REQUESTED_NOTE}\n\n${text}`;
+}
 
 function formatItem(item, index) {
   const facts = meta([
@@ -39,14 +42,15 @@ function nextPageLine(layout, next) {
   return layout === 'new' ? 'More results load on scroll and were not read.' : 'No more pages.';
 }
 
-export function formatListing({ page_title: title, url, items, next_url: next, layout }) {
-  if (!items.length) return withLayoutNote(layout, `No posts found at ${url}`);
+export function formatListing(data) {
+  const { page_title: title, url, items, next_url: next, layout } = data;
+  if (!items.length) return withLayoutNote(data, `No posts found at ${url}`);
   const text = [
     `${title}\n${url}`,
     items.map(formatItem).join('\n\n'),
     nextPageLine(layout, next),
   ].join('\n\n');
-  return withLayoutNote(layout, text);
+  return withLayoutNote(data, text);
 }
 
 function formatComment(comment) {
@@ -64,7 +68,8 @@ function formatComment(comment) {
   return `${pad}[${head}]\n${indent(comment.text || '(no text)', pad)}`;
 }
 
-export function formatThread({ post, comments, truncated, layout }) {
+export function formatThread(data) {
+  const { post, comments, truncated } = data;
   const facts = meta([
     post.subreddit && `r/${post.subreddit}`,
     user(post.author),
@@ -84,5 +89,5 @@ export function formatThread({ post, comments, truncated, layout }) {
   ]
     .filter(Boolean)
     .join('\n\n');
-  return withLayoutNote(layout, text);
+  return withLayoutNote(data, text);
 }
