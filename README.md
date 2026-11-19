@@ -73,6 +73,12 @@ The MCP server is named `read-only-reddit-old` and exposes four tools:
 - `read_thread`: takes a thread `url` from reddit.com or redd.it, and optionally `sort`, `comment_limit` and `max_comments`. Returns the post and its comment tree.
 - `read_listing`: takes the `url` of a subreddit listing, a user page or a next page link.
 
+The three reading tools also take an optional `layout`:
+
+- `auto` (default): old Reddit first, new Reddit on a login wall.
+- `old`: old Reddit only, no fallback.
+- `new`: new Reddit only. Useful to test the new Reddit extractors, or when you know old Reddit is not available to you.
+
 `SKILL.md` tells Claude when to use them and how to keep the page count low.
 
 The server speaks plain MCP over stdio, so other MCP clients can use it too. Only Claude Code is tested.
@@ -93,6 +99,7 @@ Claude Code  <-- stdio (MCP) -->  mcp-server  <-- 127.0.0.1:47821 -->  extension
 ## Repository layout
 
 - `SKILL.md`: the Claude Code skill.
+- `scripts/live-check.js`: a manual check against real Reddit, run with `npm run test:live`.
 - `extension/`: the Manifest V3 browser extension.
   - `src/extractors/`: the functions that run inside the Reddit page, one set for old Reddit and one for new Reddit.
   - `src/fallback.js` and `src/login-wall.js`: when to move from old Reddit to new Reddit.
